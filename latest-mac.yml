@@ -1,0 +1,8 @@
+version: 1.0.1
+files:
+    url: YourAppName-1.0.1.dmg
+    sha512: <SHA512_CHECKSUM>
+    size: <FILE_SIZE_IN_BYTES>
+path: YourAppName-1.0.1.dmg
+sha512: <SHA512_CHECKSUM>
+releaseDate: '2023-03-22T00:00:00.000Z'

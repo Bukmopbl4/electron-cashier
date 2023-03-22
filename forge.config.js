@@ -19,6 +19,7 @@ function deleteUnwantedLocales(buildPath) {
 module.exports = {
   rebuildConfig: {},
   packagerConfig: {
+    osxSign: {},
     afterCopy: [(buildPath, electronVersion, platform, arch, callback) => {
       deleteUnwantedLocales(buildPath);
       callback();
@@ -26,6 +27,19 @@ module.exports = {
     ignore: [
       'LICENSES.chromium.html',
       '.DS_Store'
+    ],
+    publishers: [
+      {
+        name: '@electron-forge/publisher-github',
+        platforms: ['darwin', 'win32'],
+        config: {
+          repository: {
+            owner: 'Bukmopbl4',
+            name: 'electron-cashier'
+          },
+          prerelease: true
+        }
+      }
     ],
     asar: true,
     icon: process.platform === "darwin" ? "app.icns" : "app.ico"
@@ -35,6 +49,7 @@ module.exports = {
       name: '@electron-forge/maker-squirrel',
       config: {
         name: 'cashier',
+        platforms: ['win32'],
       },
     },
     {
@@ -44,10 +59,12 @@ module.exports = {
     {
       name: '@electron-forge/maker-deb',
       config: {},
+      platforms: ['linux'],
     },
     {
       name: '@electron-forge/maker-rpm',
       config: {},
+      platforms: ['linux']
     },
   ],
 };

@@ -48,7 +48,8 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow()
     }
-  })
+  });
+  autoUpdater.checkForUpdates();
 })
 
 app.on('window-all-closed', () => {
@@ -124,10 +125,10 @@ autoUpdater.on("update-downloaded", () => {
   // autoUpdater.quitAndInstall();
 });
 
-Object.defineProperty(app, 'isPackaged', {
-  get() {
-    return true;
-  }
-});
+// Object.defineProperty(app, 'isPackaged', {
+//   get() {
+//     return true;
+//   }
+// });
 
-autoUpdater.checkForUpdates(forceDev = false);
+// autoUpdater.checkForUpdates(forceDev = false);

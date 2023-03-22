@@ -3,23 +3,40 @@
   "version": "1.0.0",
   "description": "desc",
   "main": "main.js",
+  "repository": "https://github.com/Bukmopbl4/electron-cashier",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "dist": "electron-builder -p always",
+    "publish": "electron-forge publish --hook-use-electron-builder-for-publish"
   },
   "author": "Bukmopbl4",
   "license": "ISC",
+  "build": {
+    "appId": "bet.misuerte.cashier",
+    "productName": "Cashier",
+    "publish":{
+      "provider": "github",
+      "owner": "Bukmopbl4",
+      "repo": "electron-cashier"
+    },
+    "win":{
+      "target": "nsis"
+    }
+  },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.5",
     "@electron-forge/maker-deb": "^6.0.5",
     "@electron-forge/maker-rpm": "^6.0.5",
     "@electron-forge/maker-squirrel": "^6.0.5",
     "@electron-forge/maker-zip": "^6.0.5",
-    "electron": "22.3.3"
+    "electron": "22.3.3",
+    "electron-builder": "^23.6.0"
   },
   "dependencies": {
+    "@electron-forge/publisher-github": "^6.0.5",
     "@electron/asar": "^3.2.3",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.1.0",
