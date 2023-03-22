@@ -1,8 +1,11 @@
 version: 1.0.1
 files:
-    url: YourAppName-1.0.1.dmg
-    sha512: <SHA512_CHECKSUM>
-    size: <FILE_SIZE_IN_BYTES>
-path: YourAppName-1.0.1.dmg
-sha512: <SHA512_CHECKSUM>
-releaseDate: '2023-03-22T00:00:00.000Z'
+  - url: Cashier-1.0.1-mac.zip
+    sha512: vQF3jTBYd94jTsi+mrS0Q5uErg5DJVR577vChw5iYx+JwNBYz65BvHv3O+qgzj2APM0HwIY1jzME5AXJIewp3Q==
+    size: 689818948
+  - url: Cashier-1.0.1.dmg
+    sha512: PcJnyWLEDAkLdyY4/C5gJ93LAzmj0mgCgSdOHjcxMw8L2S0Tvm2jUqh94OffwWOLZFg3G0rw0FCT75DzWh3bgw==
+    size: 703915023
+path: Cashier-1.0.1-mac.zip
+sha512: vQF3jTBYd94jTsi+mrS0Q5uErg5DJVR577vChw5iYx+JwNBYz65BvHv3O+qgzj2APM0HwIY1jzME5AXJIewp3Q==
+releaseDate: '2023-03-22T21:32:40.878Z'
