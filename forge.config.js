@@ -36,8 +36,7 @@ module.exports = {
           repository: {
             owner: 'Bukmopbl4',
             name: 'electron-cashier'
-          },
-          prerelease: true
+          }
         }
       }
     ],

@@ -1,5 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { autoUpdater } = require("electron-updater");
+const Store = require('electron-store');
+const store = new Store();
+
 autoUpdater.setFeedURL({
   provider: "github",
   owner: "Bukmopbl4",
@@ -8,6 +11,7 @@ autoUpdater.setFeedURL({
   requestHeaders: { "Cache-Control": "no-cache" },
 });
 
+let mainWin;
 let win;
 
 const path = require('path')
@@ -15,14 +19,14 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 function createWindow() {
 
-  const win = new BrowserWindow({
+  mainWin = new BrowserWindow({
     width: 800,
     height: 600,
     center: true,
     minWidth: 800,
     minHeight: 600,
     maximizable: true,
-    show: true,
+    show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       devTools: true,
@@ -31,12 +35,16 @@ function createWindow() {
       //   enableRemoteModule: true,
       //   contextIsolation: false,
     }
-  })
+  });
+  
   // win.removeMenu();
-  win.setMenuBarVisibility(false);
-  win.maximize();
-  // win.loadURL('http://127.0.0.1:8000')
-  win.loadURL('https://caja.misuerte.bet')
+  mainWin.setTitle(`Cashier ${app.getVersion()}`);
+  mainWin.setMenuBarVisibility(false);
+  mainWin.maximize();
+  // win.show();
+  // mainWin.loadURL('http://127.0.0.1:8000')
+  mainWin.loadURL('https://caja.misuerte.bet');
+  
 }
 
 
@@ -95,34 +103,55 @@ ipcMain.on('print-silent', (event, data) => {
   });
 });
 
+ipcMain.on('set-credentials', (event, { username, password }) => {
+  store.set('username', username);
+  store.set('password', password);
+});
+
+ipcMain.handle('get-credentials', (event) => {
+  const savedUsername = store.get('username', '');
+  const savedPassword = store.get('password', '');
+  return { username: savedUsername, password: savedPassword };
+});
+
 autoUpdater.on('checking-for-update', () => {
   console.log('Checking for update...');
+  mainWin.setTitle(`Cashier ${app.getVersion()}: Checking for update...`);
 });
 
 autoUpdater.on("update-available", () => {
   // Здесь вы можете определить действия, которые будут выполняться, когда обновление будет доступно
   console.log('update-available');
+  mainWin.setTitle(`Cashier ${app.getVersion()}: Update-available.`);
 });
 
 autoUpdater.on('update-not-available', (info) => {
   console.log('Update not available.');
+  mainWin.setTitle(`Cashier ${app.getVersion()}`);
 });
 
 autoUpdater.on('error', (err) => {
   console.log('Error in auto-updater. ' + err);
+  mainWin.setTitle(`Cashier ${app.getVersion()}: Error in auto-updater.`);
 });
 
 autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = "Download speed: " + progressObj.bytesPerSecond;
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+  let downloadSpeedKBps = (progressObj.bytesPerSecond / 1024).toFixed(2);
+  let log_message = "Download speed: " + downloadSpeedKBps + " KB/s";
+  let roundedPercent = Math.round(progressObj.percent);
+  let transferredMB = (progressObj.transferred / (1024 * 1024)).toFixed(2);
+  let totalMB = (progressObj.total / (1024 * 1024)).toFixed(2);
+  log_message = log_message + ' - Downloaded ' + roundedPercent + '%';
+  log_message = log_message + ' (' + transferredMB + "/" + totalMB + ' MB)';
   console.log(log_message);
+  mainWin.setTitle(`Cashier ${app.getVersion()}: ${log_message}`);
 });
 
 autoUpdater.on("update-downloaded", () => {
   console.log('update-downloaded');
+  mainWin.setTitle(`Cashier ${app.getVersion()}: Update-downloaded.`);
   // Здесь вы можете определить действия, которые будут выполняться после скачивания обновления
-  // autoUpdater.quitAndInstall();
+  autoUpdater.quitAndInstall();
 });
 
 // Object.defineProperty(app, 'isPackaged', {

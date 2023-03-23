@@ -1,6 +1,6 @@
 {
   "name": "cashier",
-  "version": "1.0.2",
+  "version": "v1.0.6",
   "description": "desc",
   "main": "main.js",
   "repository": "https://github.com/Bukmopbl4/electron-cashier",
@@ -10,7 +10,8 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "dist": "electron-builder -p always",
-    "dist:win": "electron-builder -p always --win --ia32",
+    "dist:win:p": "electron-builder -p always --win --ia32",
+    "dist:win": "electron-builder --win --ia32",
     "dist:mac": "electron-builder --mac",
     "publish": "electron-forge publish --hook-use-electron-builder-for-publish"
   },
@@ -19,12 +20,12 @@
   "build": {
     "appId": "bet.misuerte.cashier",
     "productName": "Cashier",
-    "publish":{
+    "publish": {
       "provider": "github",
       "owner": "Bukmopbl4",
       "repo": "electron-cashier"
     },
-    "win":{
+    "win": {
       "target": "nsis",
       "icon": "app.ico"
     },
